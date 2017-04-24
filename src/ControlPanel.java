@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,7 @@ public class ControlPanel extends JPanel{
 
 	private static final long serialVersionUID = -6969280129122570471L;
 	private Cont contener;
+	private MyButton carButton, deliveryButton, clientButton, employeeButton, vehicleButton;
 
 	public ControlPanel(Cont contener){
 		this.contener = contener;
@@ -20,54 +22,110 @@ public class ControlPanel extends JPanel{
 		addDeliveryButton();
 		addClientButton();
 		addEmplyeeButton();
-		addvehicleButton();
+		addVehicleButton();
 	}
 	
 	
 	private void addCarButton(){
-		MyButton carButton = new MyButton("Car");
+		carButton = new MyButton("Car");
 
 		carButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!contener.isShown[0]){
+					resetButtons();
+					carButton.setBackground(Color.BLACK);
 					contener.showCarControl();
 				}
 				else{
+					carButton.setBackground(Color.DARK_GRAY);
 					contener.hideCarControl();
 				}
+				
 			}
 		});
 		add(carButton);
 	}
 	
 	private void addDeliveryButton(){
-		MyButton deliveryButton = new MyButton("Delivery");
+		deliveryButton = new MyButton("Delivery");
 		deliveryButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!contener.isShown[1]){
+					resetButtons();
+					deliveryButton.setBackground(Color.BLACK);
 					contener.showDeliveryControl();
-				}
+				}				
 				else{
+					deliveryButton.setBackground(Color.DARK_GRAY);
 					contener.hideDeliveryControl();
 				}
+					
 			}
 		});
 		add(deliveryButton);
 	}
 	
 	private void addClientButton(){
-		MyButton clientButton = new MyButton("Client");
+		clientButton = new MyButton("Client");
+		clientButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!contener.isShown[2]){
+					resetButtons();
+					clientButton.setBackground(Color.BLACK);
+					contener.showClientControl();
+				}				
+				else{
+					clientButton.setBackground(Color.DARK_GRAY);
+					contener.hideClientControl();
+				}
+					
+			}
+		});
 		add(clientButton);
 	}
 	
 	private void addEmplyeeButton(){
-		MyButton emplyeeButton = new MyButton("Emplyee");
-		add(emplyeeButton);
+		employeeButton = new MyButton("Emplyee");
+		employeeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!contener.isShown[3]){
+					resetButtons();
+					employeeButton.setBackground(Color.BLACK);
+					contener.showEmployeeControl();
+				}				
+				else{
+					employeeButton.setBackground(Color.DARK_GRAY);
+					contener.hideEmployeeControl();
+				}
+					
+			}
+		});
+		add(employeeButton);
 	}
 	
-	private void addvehicleButton(){
-		MyButton vehicleButton = new MyButton("Vehicle");
+	private void addVehicleButton(){
+		vehicleButton = new MyButton("Vehicle");
+		vehicleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!contener.isShown[4]){
+					resetButtons();
+					vehicleButton.setBackground(Color.BLACK);
+					contener.showVehicleControl();
+				}				
+				else{
+					vehicleButton.setBackground(Color.DARK_GRAY);
+					contener.hideVehicleControl();
+				}
+					
+			}
+		});
 		add(vehicleButton);
 	}
-
+	private void resetButtons(){
+		carButton.setBackground(Color.DARK_GRAY);
+		clientButton.setBackground(Color.DARK_GRAY);
+		deliveryButton.setBackground(Color.DARK_GRAY);
+		employeeButton.setBackground(Color.DARK_GRAY);
+		vehicleButton.setBackground(Color.DARK_GRAY);
+	}
 }

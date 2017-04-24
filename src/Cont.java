@@ -13,6 +13,9 @@ public class Cont extends JPanel{
 	private ControlPanel controlPanel;
 	private CarControl carControl;
 	private DeliveryControl deliveryControl;
+	private ClientControl clientControl;
+	private EmployeeControl employeeControl;
+	private VehicleControl vehicleControl;
 	private JLabel title;
 	public boolean[] isShown = {false,false,false,false,false};
 
@@ -23,6 +26,9 @@ public class Cont extends JPanel{
 		addControlPanel();
 		addCarControl();
 		addDeliveryControl();
+		addClientControl();
+		addEmployeeControl();
+		addVehicleControl();
 	}
 	private void addTitle(){
 		title = new JLabel("Sprzedam Opla", SwingConstants.CENTER);
@@ -42,7 +48,7 @@ public class Cont extends JPanel{
 	
 	public void addCarControl(){
 		carControl = new CarControl();
-		carControl.setBounds(310, 90, 200, 250);
+		carControl.setBounds(310, 90, 150, 200);
 		add(carControl);
 	}
 	public void showCarControl(){
@@ -57,7 +63,7 @@ public class Cont extends JPanel{
 	
 	public void addDeliveryControl(){
 		deliveryControl = new DeliveryControl();
-		deliveryControl.setBounds(310, 120, 200, 250);
+		deliveryControl.setBounds(310, 145, 150, 200);
 		add(deliveryControl);
 	}
 	public void showDeliveryControl(){
@@ -70,9 +76,57 @@ public class Cont extends JPanel{
 		isShown[1] = false;
 	}
 	
+	public void addClientControl(){
+		clientControl = new ClientControl();
+		clientControl.setBounds(310, 245, 150, 200);
+		add(clientControl);
+	}
+	public void showClientControl(){
+		hideAll();
+		clientControl.setVisible(true);
+		isShown[2] = true;
+	}
+	public void hideClientControl(){
+		clientControl.setVisible(false);
+		isShown[2] = false;
+	}
+	
+	public void addEmployeeControl(){
+		employeeControl = new EmployeeControl();
+		employeeControl.setBounds(310, 345, 150, 200);
+		add(employeeControl);
+	}
+	public void showEmployeeControl(){
+		hideAll();
+		employeeControl.setVisible(true);
+		isShown[3] = true;
+	}
+	public void hideEmployeeControl(){
+		employeeControl.setVisible(false);
+		isShown[3] = false;
+	}
+	
+	public void addVehicleControl(){
+		vehicleControl = new VehicleControl();
+		vehicleControl.setBounds(310, 490, 150, 200);
+		add(vehicleControl);
+	}
+	public void showVehicleControl(){
+		hideAll();
+		vehicleControl.setVisible(true);
+		isShown[4] = true;
+	}
+	public void hideVehicleControl(){
+		vehicleControl.setVisible(false);
+		isShown[4] = false;
+	}
+	
 	private void hideAll(){
 		hideCarControl();
 		hideDeliveryControl();
+		hideClientControl();
+		hideEmployeeControl();
+		hideVehicleControl();
 		for(int i = 0; i < isShown.length; i++){
 			isShown[i] = false;
 		}
