@@ -11,8 +11,8 @@ public class MyButton extends JButton{
 	public MyButton(String buttonText){
 		super(buttonText);
 		setPreferredSize(new Dimension(250, 40));
-		setBackground(Color.BLACK);
-		setForeground(Color.GRAY);
+		setBackground(Color.DARK_GRAY);
+		setForeground(Color.LIGHT_GRAY);
 		setBorderPainted(false);
 		setFocusPainted(false);
 		setRolloverEnabled(false);
