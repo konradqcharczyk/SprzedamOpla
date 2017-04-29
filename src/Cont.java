@@ -1,6 +1,7 @@
 
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.SQLException;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,6 +17,7 @@ public class Cont extends JPanel{
 	private ClientControl clientControl;
 	private EmployeeControl employeeControl;
 	private VehicleControl vehicleControl;
+	public DataBaseConnection dataBaseConnection;
 	private JLabel title;
 	public boolean[] isShown = {false,false,false,false,false};
 
@@ -29,6 +31,13 @@ public class Cont extends JPanel{
 		addClientControl();
 		addEmployeeControl();
 		addVehicleControl();
+		try{
+		dataBaseConnection = new DataBaseConnection();
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e);
+		}
 	}
 	private void addTitle(){
 		title = new JLabel("Sprzedam Opla", SwingConstants.CENTER);
