@@ -31,13 +31,14 @@ public class ControlPanel extends JPanel{
 
 		carButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(!contener.isShown[0]){
+				if(!contener.isShownControl[0]){
 					resetButtons();
 					carButton.setBackground(Color.BLACK);
 					contener.showCarControl();
 				}
 				else{
 					carButton.setBackground(Color.DARK_GRAY);
+					contener.hidePanels();
 					contener.hideCarControl();
 				}
 				
@@ -50,13 +51,14 @@ public class ControlPanel extends JPanel{
 		deliveryButton = new MyButton("Delivery");
 		deliveryButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(!contener.isShown[1]){
+				if(!contener.isShownControl[1]){
 					resetButtons();
 					deliveryButton.setBackground(Color.BLACK);
 					contener.showDeliveryControl();
 				}				
 				else{
 					deliveryButton.setBackground(Color.DARK_GRAY);
+					contener.hidePanels();
 					contener.hideDeliveryControl();
 				}
 					
@@ -69,13 +71,14 @@ public class ControlPanel extends JPanel{
 		clientButton = new MyButton("Client");
 		clientButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(!contener.isShown[2]){
+				if(!contener.isShownControl[2]){
 					resetButtons();
 					clientButton.setBackground(Color.BLACK);
 					contener.showClientControl();
 				}				
 				else{
 					clientButton.setBackground(Color.DARK_GRAY);
+					contener.hidePanels();
 					contener.hideClientControl();
 				}
 					
@@ -88,13 +91,14 @@ public class ControlPanel extends JPanel{
 		employeeButton = new MyButton("Emplyee");
 		employeeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(!contener.isShown[3]){
+				if(!contener.isShownControl[3]){
 					resetButtons();
 					employeeButton.setBackground(Color.BLACK);
 					contener.showEmployeeControl();
 				}				
 				else{
 					employeeButton.setBackground(Color.DARK_GRAY);
+					contener.hidePanels();
 					contener.hideEmployeeControl();
 				}
 					
@@ -107,13 +111,14 @@ public class ControlPanel extends JPanel{
 		vehicleButton = new MyButton("Vehicle");
 		vehicleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(!contener.isShown[4]){
+				if(!contener.isShownControl[4]){
 					resetButtons();
 					vehicleButton.setBackground(Color.BLACK);
 					contener.showVehicleControl();
 				}				
 				else{
 					vehicleButton.setBackground(Color.DARK_GRAY);
+					contener.hidePanels();
 					contener.hideVehicleControl();
 				}
 					
