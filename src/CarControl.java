@@ -21,6 +21,20 @@ public class CarControl extends JPanel{
 	
 	public void addSellButton(){
 		sellButton = new MyButton("Sell");
+		sellButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!contener.isShownPanel[0]){
+					resetButtons();
+					sellButton.setBackground(Color.BLACK);
+					contener.showCarSellPanel();
+				}				
+				else{
+					sellButton.setBackground(Color.DARK_GRAY);
+					contener.hideCarSellPanel();
+				}
+					
+			}
+		});
 		add(sellButton);
 	}
 	

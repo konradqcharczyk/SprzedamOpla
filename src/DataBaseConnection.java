@@ -4,10 +4,10 @@ import java.sql.*;
 public class DataBaseConnection {
     String usernameDB = "C##QQS";
     String passwordDB = "qqsdb";
-    public Connection connection;
+    public static Connection connection;
 
 
-    public DataBaseConnection() throws SQLException{
+    public DataBaseConnection(){
         try{
             Class.forName("oracle.jdbc.driver.OracleDriver");
             connection = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/KokosORCL", usernameDB, passwordDB);
@@ -18,7 +18,7 @@ public class DataBaseConnection {
             e.printStackTrace();
         }
         
-        viewTable(connection);
+        //viewTable(connection);
         
     }
     

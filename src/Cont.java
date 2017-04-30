@@ -1,7 +1,6 @@
 
 import java.awt.Color;
 import java.awt.Font;
-import java.sql.SQLException;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,6 +17,7 @@ public class Cont extends JPanel{
 	private EmployeeControl employeeControl;
 	private VehicleControl vehicleControl;
 	private CarAddingPanel carAddingPanel;
+	private CarSellPanel carSellPanel;
 	public DataBaseConnection dataBaseConnection;
 	private JLabel title;
 	public boolean[] isShownControl = {false,false,false,false,false};
@@ -27,6 +27,7 @@ public class Cont extends JPanel{
 		setSize(1080,720);
 		setLayout(null);
 		addTitle();
+		addConnection();
 		addControlPanel();
 		addCarControl();
 		addDeliveryControl();
@@ -34,7 +35,9 @@ public class Cont extends JPanel{
 		addEmployeeControl();
 		addVehicleControl();
 		addCarAddingPanel();
+		addCarSellPanel();
 	}
+	
 	private void addTitle(){
 		title = new JLabel("Sprzedam Opla", SwingConstants.CENTER);
 		title.setOpaque(true);
@@ -144,6 +147,7 @@ public class Cont extends JPanel{
 	}
 	
 	public void showCarAddingPanel(){
+		hidePanels();
 		carAddingPanel.setVisible(true);
 		isShownPanel[1] = true;
 	}
@@ -151,6 +155,23 @@ public class Cont extends JPanel{
 	public void hideCarAddingPanel(){
 		carAddingPanel.setVisible(false);
 		isShownPanel[1] = false;
+	}
+	
+	public void addCarSellPanel(){
+		carSellPanel = new CarSellPanel();
+		carSellPanel.setBounds(580, 150, 350, 350);
+		add(carSellPanel);
+	}
+	
+	public void showCarSellPanel(){
+		hidePanels();
+		carSellPanel.setVisible(true);
+		isShownPanel[0] = true;
+	}
+	
+	public void hideCarSellPanel(){
+		carSellPanel.setVisible(false);
+		isShownPanel[0] = false;
 	}
 	
 	
@@ -169,8 +190,14 @@ public class Cont extends JPanel{
 	
 	public void hidePanels(){
 		hideCarAddingPanel();
+		hideCarSellPanel();
 		for(int i = 0; i < isShownPanel.length; i++){
 			isShownPanel[i] = false;
 		}
+	}
+	
+	private void addConnection()
+	{
+		dataBaseConnection = new DataBaseConnection();
 	}
 }
