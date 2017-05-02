@@ -18,10 +18,11 @@ public class Cont extends JPanel{
 	private VehicleControl vehicleControl;
 	private CarAddingPanel carAddingPanel;
 	private CarSellPanel carSellPanel;
+	private CarEditPanel carEditPanel;
 	public DataBaseConnection dataBaseConnection;
 	private JLabel title;
 	public boolean[] isShownControl = {false,false,false,false,false};
-	public boolean[] isShownPanel = {false,false};
+	public boolean[] isShownPanel = {false,false, false};
 
 	public Cont(){
 		setSize(1080,720);
@@ -36,6 +37,7 @@ public class Cont extends JPanel{
 		addVehicleControl();
 		addCarAddingPanel();
 		addCarSellPanel();
+		addCarEditPanel();
 	}
 	
 	private void addTitle(){
@@ -174,6 +176,23 @@ public class Cont extends JPanel{
 		isShownPanel[0] = false;
 	}
 	
+	public void addCarEditPanel(){
+		carEditPanel = new CarEditPanel();
+		carEditPanel.setBounds(550, 150, 450, 450);
+		add(carEditPanel);
+	}
+	
+	public void showCarEditPanel(){
+		hidePanels();
+		carEditPanel.setVisible(true);
+		isShownPanel[2] = true;
+	}
+	
+	public void hideCarEditPanel(){
+		carEditPanel.setVisible(false);
+		isShownPanel[2] = false;
+	}
+		
 	
 	private void hideAll(){
 		hideCarControl();
@@ -191,6 +210,7 @@ public class Cont extends JPanel{
 	public void hidePanels(){
 		hideCarAddingPanel();
 		hideCarSellPanel();
+		hideCarEditPanel();
 		for(int i = 0; i < isShownPanel.length; i++){
 			isShownPanel[i] = false;
 		}

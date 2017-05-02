@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.swing.JComboBox;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -124,24 +124,47 @@ public class CarSellPanel extends JPanel{
 	    Statement stmt = null;
 	    String lic_num = licNumDeleteTextField.getText();
 	    String query = "DELETE FROM CAR WHERE lic_num = '" + lic_num +"'";
-	    deleteBrought_In(lic_num);
-	    deletePurchase(lic_num);
-	    System.out.println(lic_num);
+
+	    if(carExists(lic_num))
+	    {
+		    deleteBrought_In(lic_num);
+		    deletePurchase(lic_num);
 	    try{
 	        stmt = DataBaseConnection.connection.createStatement();
 	        stmt.executeQuery(query);
         	resaultLabel.setForeground(Color.GREEN);
         	resaultLabel.setText("Succes!");
         	resaultLabel.setVisible(true);
+        	
 	        } catch (SQLException e ) {
-	        	resaultLabel.setForeground(Color.RED);
-	        	resaultLabel.setText("Failed");
-	        	resaultLabel.setVisible(true);
 	            System.out.println(e);
 	        } finally {
 	            if (stmt != null) { stmt.close(); }
-	        }  
+	        } 
+	    }
 	}
+	
+	private boolean carExists(String lic){
+	    Statement stmt = null;
+	    String query = "select count(*) from car where lic_num = '" + lic +"'";
+	    try{
+	        stmt = DataBaseConnection.connection.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        while (rs.next()) {
+		        if(rs.getInt("count(*)") == 1) 
+		        	return true;
+	        }
+
+	        } catch (SQLException e ) {
+	        	System.out.println(e);
+	        	return false;            
+	        }
+    	resaultLabel.setForeground(Color.RED);
+    	resaultLabel.setText("Failed");
+    	resaultLabel.setVisible(true);
+	    return false;
+	}
+	
 	private void deleteBrought_In(String lic){
 	    Statement stmt = null;
 	    String query = "DELETE FROM BROUGHT_IN WHERE Car_Lic_Num = '" + lic +"'";

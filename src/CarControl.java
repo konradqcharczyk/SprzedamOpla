@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class CarControl extends JPanel{
 	private static final long serialVersionUID = 3555811020143124023L;
 	private Cont contener;
-	private MyButton sellButton, addButton, findButton;
+	private MyButton sellButton, addButton, editButton;
 	
 	public CarControl(Cont contener){
 		this.contener = contener;
@@ -58,13 +58,27 @@ public class CarControl extends JPanel{
 	}
 	
 	public void addFindButton(){
-		findButton = new MyButton("Find");
-		add(findButton);
+		editButton = new MyButton("Edit");
+		editButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!contener.isShownPanel[2]){
+					resetButtons();
+					editButton.setBackground(Color.BLACK);
+					contener.showCarEditPanel();
+				}				
+				else{
+					editButton.setBackground(Color.DARK_GRAY);
+					contener.hideCarEditPanel();
+				}
+					
+			}
+		});
+		add(editButton);
 	}
 	
 	public void resetButtons(){
 		addButton.setBackground(Color.DARK_GRAY);
-		findButton.setBackground(Color.DARK_GRAY);
+		editButton.setBackground(Color.DARK_GRAY);
 		sellButton.setBackground(Color.DARK_GRAY);
 	}
 

@@ -10,6 +10,7 @@ import java.sql.Statement;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -149,7 +150,6 @@ public class CarAddingPanel extends JPanel{
 	    String branch = (String) branchComboBox.getSelectedItem();
 	    String query = "INSERT INTO CAR VALUES('" + lic_num + "','" + producer  + "','" + model 
 	    		+ "'," + price + ",'" + from + "'," + year +", " + findBranchID(branch) + ")";
-	    System.out.println(findBranchID(branch));
 
 	    try{
 	        stmt = DataBaseConnection.connection.createStatement();
@@ -161,7 +161,8 @@ public class CarAddingPanel extends JPanel{
 	        	resaultLabel.setForeground(Color.RED);
 	        	resaultLabel.setText("Failed");
 	        	resaultLabel.setVisible(true);
-	            System.out.println(e);
+	        	JOptionPane.showMessageDialog(null, e, "Error",
+                        JOptionPane.ERROR_MESSAGE);
 	        } finally {
 	            if (stmt != null) { stmt.close(); }
 	        }  
