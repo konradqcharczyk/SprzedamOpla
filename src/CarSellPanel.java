@@ -2,6 +2,8 @@
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,11 +16,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 public class CarSellPanel extends JPanel{
 
 	private static final long serialVersionUID = 656477859888030029L;
 	private Cont contener;
+	private JPanel sellPanel;
 	private JLabel sellLabel;
 	private JLabel licenceNumberLabel;
 	private JTextField licenceNumberTextField;
@@ -26,72 +30,86 @@ public class CarSellPanel extends JPanel{
 	private JTextField clientIDTextField;
 	private MyButton sellButton;
 	
+	private JPanel deletePanel;
 	private JLabel deleteLabel;
 	private JLabel licNumDeleteLabel;
 	private JTextField licNumDeleteTextField;
-	private MyButton deleteButton;
+	private JLabel modelLabel;
+	private JLabel carModelLabel;
+	private JLabel producerLabel;
+	private JLabel carProducerLabel;
+	private MyButton deleteButton, infoButton;
 	private JLabel resaultLabel;
 
 
 	public CarSellPanel(Cont contener){
 		this.contener = contener;
-		setLayout(new GridLayout(8,2, 0, 10));
+		setLayout(new GridLayout(2,1, 0, 10));
 		setVisible(false);
+		addSellPanel();
+		addDeletePanel();
+	}
+	
+	private void addSellPanel(){
+		sellPanel = new JPanel(new GridLayout(5,2,0,10));
 		addSellLabel();
-		addEmptyLabel();
+		addEmptySellLabel();
 		addLicenceNumberTextField();
 		addClientTextField();
 		addSellButton();
-		addEmptyLabel();
-		addEmptyLabel();
-		addEmptyLabel();
-		
-		addDeleteLabel();
-		addEmptyLabel();
-		addLicNumDeleteTextField();
-		addDeleteButton();
-		addResaultLabel();
+		add(sellPanel);
 	}
 	private void addSellLabel(){
 		sellLabel = new JLabel("Sell", SwingConstants.CENTER);
 		sellLabel.setFont(new Font("Helvetica",1,20));
-		add(sellLabel);
+		sellPanel.add(sellLabel);
 	}
 	
 	private void addLicenceNumberTextField()
 	{
 		licenceNumberLabel = new JLabel("Licence number");
 		licenceNumberTextField = new JTextField();
-		add(licenceNumberLabel);
-		add(licenceNumberTextField);
+		sellPanel.add(licenceNumberLabel);
+		sellPanel.add(licenceNumberTextField);
 	}
 	
 	private void addClientTextField()
 	{
 		clientIDLabel = new JLabel("Client ID");
 		clientIDTextField= new JTextField();
-		add(clientIDLabel);
-		add(clientIDTextField);
+		sellPanel.add(clientIDLabel);
+		sellPanel.add(clientIDTextField);
 	}
 	
 	private void addSellButton(){
 		sellButton = new MyButton("Sell");
-		add(sellButton);
+		sellPanel.add(sellButton);
 	}
 	
 	
-	
+	private void addDeletePanel(){
+		deletePanel = new JPanel(new GridLayout(6, 2, 0, 10));
+		addDeleteLabel();
+		addEmptyDeleteLabel();
+		addLicNumDeleteTextField();
+		addEmptyDeleteLabel();
+		addInfoButton();
+		addModelLabel();
+		addDeleteButton();
+		addResaultLabel();
+		add(deletePanel);
+	}
 	private void addDeleteLabel(){
 		deleteLabel = new JLabel("Delete", SwingConstants.CENTER);
 		deleteLabel.setFont(new Font("Helvetica",1,20));
-		add(deleteLabel);
+		deletePanel.add(deleteLabel);
 	}
 	
 	private void addLicNumDeleteTextField(){
 		licNumDeleteTextField = new JTextField();
-		licNumDeleteLabel = new JLabel("Licence number");
-		add(licNumDeleteLabel);
-		add(licNumDeleteTextField);
+		licNumDeleteLabel = new JLabel("Licence number", SwingConstants.CENTER);
+		deletePanel.add(licNumDeleteLabel);
+		deletePanel.add(licNumDeleteTextField);
 	}
 	
 	private void addDeleteButton(){
@@ -107,7 +125,34 @@ public class CarSellPanel extends JPanel{
 		}
 	});
 		
-		add(deleteButton);
+		deletePanel.add(deleteButton);
+	}
+	
+	private void addInfoButton(){
+		infoButton = new MyButton("Info");
+		infoButton.addActionListener(new ActionListener() {
+		
+		public void actionPerformed(ActionEvent e) {
+			try {
+				updateLabels(licNumDeleteTextField.getText());
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+	});
+		
+		deletePanel.add(infoButton);
+	}
+	
+	private void addModelLabel(){
+		modelLabel = new JLabel("Car model: ", SwingConstants.CENTER);
+		carModelLabel = new JLabel("", SwingConstants.CENTER);
+		producerLabel = new JLabel("Car producer: ", SwingConstants.CENTER);
+		carProducerLabel = new JLabel("", SwingConstants.CENTER);
+		deletePanel.add(producerLabel);
+		deletePanel.add(carProducerLabel);
+		deletePanel.add(modelLabel);
+		deletePanel.add(carModelLabel);
 	}
 
 	
@@ -115,11 +160,15 @@ public class CarSellPanel extends JPanel{
 		resaultLabel = new JLabel("Succes!", SwingConstants.CENTER);
 		resaultLabel.setForeground(Color.GREEN);
 		resaultLabel.setVisible(false);
-		add(resaultLabel);
+		deletePanel.add(resaultLabel);
 	}
-	private void addEmptyLabel(){
+	private void addEmptySellLabel(){
 		JLabel empty = new JLabel("");
-		add(empty);
+		sellPanel.add(empty);
+	}
+	private void addEmptyDeleteLabel(){
+		JLabel empty = new JLabel("");
+		deletePanel.add(empty);
 	}
 	
 	private void deleteCar() throws SQLException{
@@ -168,6 +217,22 @@ public class CarSellPanel extends JPanel{
 	    return false;
 	}
 	
+	
+	private void updateLabels(String lic)throws SQLException{
+	    Statement stmt = null;
+	    String query = "select producer, model from car where lic_num = '" + lic +"'";
+	    try{
+	        stmt = DataBaseConnection.connection.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        while (rs.next()) {
+		        carProducerLabel.setText(rs.getString("producer"));
+		        carModelLabel.setText(rs.getString("model"));
+	        }
+
+	        } catch (SQLException e ) {
+	        	System.out.println(e);         
+	        }
+	}
 	private void deleteBrought_In(String lic){
 	    Statement stmt = null;
 	    String query = "DELETE FROM BROUGHT_IN WHERE Car_Lic_Num = '" + lic +"'";

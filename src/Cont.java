@@ -19,10 +19,11 @@ public class Cont extends JPanel{
 	private CarAddingPanel carAddingPanel;
 	private CarSellPanel carSellPanel;
 	private CarEditPanel carEditPanel;
+	private EmployeeMorePanel employeeMorePanel;
 	public DataBaseConnection dataBaseConnection;
 	private JLabel title;
 	public boolean[] isShownControl = {false,false,false,false,false};
-	public boolean[] isShownPanel = {false,false, false};
+	public boolean[] isShownPanel = {false,false, false, false};
 
 	public Cont(){
 		setSize(1080,720);
@@ -38,6 +39,7 @@ public class Cont extends JPanel{
 		addCarAddingPanel();
 		addCarSellPanel();
 		addCarEditPanel();
+		addEmployeeMorePanel();
 	}
 	
 	private void addTitle(){
@@ -109,7 +111,7 @@ public class Cont extends JPanel{
 	}
 	
 	public void addEmployeeControl(){
-		employeeControl = new EmployeeControl();
+		employeeControl = new EmployeeControl(this);
 		employeeControl.setBounds(310, 345, 150, 200);
 		add(employeeControl);
 	}
@@ -117,6 +119,7 @@ public class Cont extends JPanel{
 	public void showEmployeeControl(){
 		hideAll();
 		employeeControl.setVisible(true);
+		employeeControl.resetButtons();
 		isShownControl[3] = true;
 	}
 	
@@ -161,7 +164,7 @@ public class Cont extends JPanel{
 	
 	public void addCarSellPanel(){
 		carSellPanel = new CarSellPanel(this);
-		carSellPanel.setBounds(580, 150, 350, 350);
+		carSellPanel.setBounds(580, 120, 350, 500);
 		add(carSellPanel);
 	}
 	
@@ -193,6 +196,23 @@ public class Cont extends JPanel{
 		isShownPanel[2] = false;
 	}
 	
+	public void addEmployeeMorePanel(){
+		employeeMorePanel = new EmployeeMorePanel();
+		employeeMorePanel.setBounds(550, 120, 450, 500);
+		add(employeeMorePanel);
+	}
+	
+	public void showEmployeeMorePanel(){
+		hidePanels();
+		employeeMorePanel.setVisible(true);
+		isShownPanel[3] = true;
+	}
+	
+	public void hideEmployeeMorePanel(){
+		employeeMorePanel.setVisible(false);
+		isShownPanel[3] = false;
+	}
+	
 	
 	//TODO all this shit up make it private
 	public void updateEditTable(){
@@ -218,6 +238,7 @@ public class Cont extends JPanel{
 		hideCarAddingPanel();
 		hideCarSellPanel();
 		hideCarEditPanel();
+		hideEmployeeMorePanel();
 		for(int i = 0; i < isShownPanel.length; i++){
 			isShownPanel[i] = false;
 		}
