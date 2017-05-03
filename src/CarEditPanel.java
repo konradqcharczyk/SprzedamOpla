@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,6 +34,8 @@ public class CarEditPanel extends JPanel{
 	private JTextField priceTextField;
 	private JTextField fromTextField;
 	private JTextField yearTextField;
+	private JComboBox<String> branchComboBox;
+	private Vector<String> branches;
 	private MyButton editButton;
 	private GridBagConstraints c; 
 
@@ -46,16 +49,6 @@ public class CarEditPanel extends JPanel{
 		addCarTable();
 		addChooseButton();
 		addEditPanel();
-		addEditButton();
-
-//		addProducerTextField();
-//		addModelTextField();
-//		addPriceTextField();
-//		addFromTextField();
-//		addYearTextField();
-//		addBranchComboBox();
-//		addAddButton();
-//		addResaultLabel();
 	}
 	
 	private void addCarTable()
@@ -68,9 +61,10 @@ public class CarEditPanel extends JPanel{
 		columnNames.add("Price");
 		columnNames.add("From");
 		columnNames.add("Year of prod");
+		columnNames.add("Branch");
 		Statement stmt = null;	
-	    String query = "select lic_num, producer, model, price, country, year_of_prod"
-	    		   +   " from CAR";
+	    String query = "select lic_num, producer, model, price, country, year_of_prod, city "
+	    		+ "from CAR c join BRANCH b on c.branch_id = b.id";
 	    try{
 	        stmt = DataBaseConnection.connection.createStatement();
 	        ResultSet rs = stmt.executeQuery(query);
@@ -82,6 +76,7 @@ public class CarEditPanel extends JPanel{
 	        	temp.add((int)rs.getInt("price"));
 	        	temp.add((String)rs.getString("country"));
 	        	temp.add((int)rs.getInt("year_of_prod"));
+	        	temp.add((String)rs.getString("city"));
 	        	data.add(temp);
 	        }
 	        } catch (SQLException e ) {
@@ -132,7 +127,7 @@ public class CarEditPanel extends JPanel{
 	}
 	
 	private void addEditPanel(){
-		editPanel = new JPanel(new GridLayout(2, 3, 10, 30));
+		editPanel = new JPanel(new GridLayout(4, 2, 10, 30));
 		licenceNumberTextField = new JTextField("Licence number");
 		producerTextField = new JTextField("Producer");
 		modelTextField = new JTextField("Model");
@@ -145,25 +140,29 @@ public class CarEditPanel extends JPanel{
 		editPanel.add(priceTextField);
 		editPanel.add(fromTextField);
 		editPanel.add(yearTextField);
+		addBranchComboBox();
+		addEditButton();
 		c.gridx = 0;
 		c.gridy = 2;
 		c.weighty = 1;
 		c.weightx = 0;
 		c.gridwidth = 2;
-		c.ipady = 60;
+		c.ipady = 20;
 		c.insets = new Insets(10,0,0,0);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		add(editPanel, c);
 	}
 	
 	private void setNewValues(Vector<Object> table){
+
 		licenceNumberTextField.setText((String) table.get(0));
 		producerTextField.setText((String) table.get(1));
 		modelTextField.setText((String) table.get(2));
 		priceTextField.setText(Integer.toString((int)table.get(3)));
 		fromTextField.setText((String) table.get(4));
 		yearTextField.setText(Integer.toString((int)table.get(5)));
-		
+		branchComboBox.setSelectedIndex(findBranchID((String) table.get(6)) - 1);
+
 	}
 	private void addEditButton(){
 		editButton = new MyButton("Edit");
@@ -178,16 +177,7 @@ public class CarEditPanel extends JPanel{
 				}
 			}
 		});
-		c.gridx = 0;
-		c.gridy = 3;
-		c.weighty = 1;
-		c.weightx = 0;
-		c.gridwidth = 1;
-		c.ipady = 10;
-		c.ipadx = 50;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(10,0,0,0);
-		add(editButton,c);
+		editPanel.add(editButton);
 	}
 	
 	private void editCar() throws SQLException{
@@ -198,10 +188,10 @@ public class CarEditPanel extends JPanel{
 	    String price = priceTextField.getText();
 	    String from = fromTextField.getText();
 	    String year = yearTextField.getText();
+	    String branch = (String) branchComboBox.getSelectedItem();
 	    String query =    "UPDATE CAR "
 	    				+ "SET lic_num = '"+lic_num+"' ,producer = '"+producer+"',model = '"+model+"'"
-	    				+ ",price = "+price+" ,country = '"+from+"' , year_of_prod = "+year+" "
-	    				+ "WHERE lic_num = '"+lic_num+"'";
+	    				+ ",price = "+price+" ,country = '"+from+"' , year_of_prod = "+year+ ",branch_id = " + findBranchID(branch) + "WHERE lic_num = '"+lic_num+"'";
 	    		     
 	    try{
 	        stmt = DataBaseConnection.connection.createStatement();
@@ -224,5 +214,39 @@ public class CarEditPanel extends JPanel{
 		setVisible(true);
 	}
 	
+	private void addBranchComboBox()
+	{ 
+		branches = new Vector<String>();
+		Statement stmt = null;	
+	    String query = "select city as res from BRANCH";
+	    try{
+	        stmt = DataBaseConnection.connection.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        while (rs.next()) {
+	            branches.add(rs.getString("res"));
+	        }
+	        } catch (SQLException e ) {
+	            System.out.println(e);
+	        } 
+		branchComboBox = new JComboBox<String>(branches);
 
+		editPanel.add(branchComboBox);
+	}
+	
+	private int findBranchID(String branch){
+		Statement stmt = null;	
+	    String query = "select ID from BRANCH where city = '"+branch+"'";
+	    try{
+	        stmt = DataBaseConnection.connection.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        while (rs.next()) {
+	            return rs.getInt("id");
+	        }
+	        } catch (SQLException e ) {
+	            System.out.println(e);
+	            return 0;
+	        }
+		return 1; 
+	}
+	
 }

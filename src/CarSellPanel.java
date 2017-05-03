@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 public class CarSellPanel extends JPanel{
 
 	private static final long serialVersionUID = 656477859888030029L;
+	private Cont contener;
 	private JLabel sellLabel;
 	private JLabel licenceNumberLabel;
 	private JTextField licenceNumberTextField;
@@ -32,7 +33,8 @@ public class CarSellPanel extends JPanel{
 	private JLabel resaultLabel;
 
 
-	public CarSellPanel(){
+	public CarSellPanel(Cont contener){
+		this.contener = contener;
 		setLayout(new GridLayout(8,2, 0, 10));
 		setVisible(false);
 		addSellLabel();
@@ -135,6 +137,7 @@ public class CarSellPanel extends JPanel{
         	resaultLabel.setForeground(Color.GREEN);
         	resaultLabel.setText("Succes!");
         	resaultLabel.setVisible(true);
+        	contener.updateEditTable();
         	
 	        } catch (SQLException e ) {
 	            System.out.println(e);

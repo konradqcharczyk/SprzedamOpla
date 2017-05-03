@@ -143,7 +143,7 @@ public class Cont extends JPanel{
 	}
 	
 	public void addCarAddingPanel(){
-		carAddingPanel = new CarAddingPanel();
+		carAddingPanel = new CarAddingPanel(this);
 		carAddingPanel.setBounds(580, 150, 350, 450);
 		add(carAddingPanel);
 	}
@@ -160,7 +160,7 @@ public class Cont extends JPanel{
 	}
 	
 	public void addCarSellPanel(){
-		carSellPanel = new CarSellPanel();
+		carSellPanel = new CarSellPanel(this);
 		carSellPanel.setBounds(580, 150, 350, 350);
 		add(carSellPanel);
 	}
@@ -178,7 +178,7 @@ public class Cont extends JPanel{
 	
 	public void addCarEditPanel(){
 		carEditPanel = new CarEditPanel();
-		carEditPanel.setBounds(550, 150, 450, 450);
+		carEditPanel.setBounds(550, 120, 450, 500);
 		add(carEditPanel);
 	}
 	
@@ -191,6 +191,13 @@ public class Cont extends JPanel{
 	public void hideCarEditPanel(){
 		carEditPanel.setVisible(false);
 		isShownPanel[2] = false;
+	}
+	
+	
+	//TODO all this shit up make it private
+	public void updateEditTable(){
+		carEditPanel.updateTable();
+		carEditPanel.setVisible(false);
 	}
 		
 	

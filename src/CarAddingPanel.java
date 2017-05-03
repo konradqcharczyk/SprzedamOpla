@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -18,6 +19,8 @@ import javax.swing.SwingConstants;
 public class CarAddingPanel extends JPanel{
 
 	private static final long serialVersionUID = 656477859888030029L;
+	
+	private Cont contener;
 	private JLabel licenceNumberLabel;
 	private JTextField licenceNumberTextField;
 	private JLabel modelLabel;
@@ -36,7 +39,8 @@ public class CarAddingPanel extends JPanel{
 	private JLabel resaultLabel;
 	
 	
-	public CarAddingPanel(){
+	public CarAddingPanel(Cont contener){
+		this.contener = contener;
 		setLayout(new GridLayout(8, 2, 0, 30));
 		setVisible(false);
 		addLicenceNumberTextField();
@@ -100,6 +104,7 @@ public class CarAddingPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					addCar();
+					contener.updateEditTable();
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -108,18 +113,15 @@ public class CarAddingPanel extends JPanel{
 		add(addButton);
 	}
 	private void addBranchComboBox()
-	{
-	   
-		String [] branches = new String[3];
-		int i = 0;
+	{ 
+		Vector<String> branches = new Vector<String>();
 		Statement stmt = null;	
 	    String query = "select city as res from BRANCH";
 	    try{
 	        stmt = DataBaseConnection.connection.createStatement();
 	        ResultSet rs = stmt.executeQuery(query);
 	        while (rs.next()) {
-	            branches[i] = rs.getString("res");
-	            i++;
+	            branches.add(rs.getString("res"));
 	        }
 	        } catch (SQLException e ) {
 	            System.out.println(e);
@@ -170,7 +172,7 @@ public class CarAddingPanel extends JPanel{
 	
 	private int findBranchID(String branch){
 		Statement stmt = null;	
-	    String query = "select ID from BRANCH where city = 'Kraków'";
+	    String query = "select ID from BRANCH where city = '"+branch+"'";
 	    try{
 	        stmt = DataBaseConnection.connection.createStatement();
 	        ResultSet rs = stmt.executeQuery(query);
